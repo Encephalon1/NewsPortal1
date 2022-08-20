@@ -1,0 +1,46 @@
+Еpython manage.py shell
+>>>from news.models import *
+>>>User.objects.create_user(username=ТMyUser1Т)
+>>> User.objects.create_user(username=ТMyUser2Т)
+>>>Author.objects.create(author=User.objects.get(id=1))
+>>>Author.objects.create(author=User.objects.get(id=2))
+>>>Category.objects.create(name_of_category=ТCategory1Т)
+>>>Category.objects.create(name_of_category=ТCategory2Т)
+>>>Category.objects.create(name_of_category=ТCategory3Т)
+>>>Category.objects.create(name_of_category=ТCategory4Т)
+>>>Post.objects.create(title=ТArticle1Т, post_text=ТText in the article1Т, post_author=Author.objects.get(id=1))
+>>>Post.objects.create(title=ТArticle2Т, post_text=ТText in the article2Т, post_author=Author.objects.get(id=2))
+>>>Post.objects.create(title=ТNewsТ, post_text=ТText in newsТ, post_author=Author.objects.get(id=1), post_type=ТNWТ)
+>>> Post.objects.get(id=1).category.add(Category.objects.get(id=1))
+>>> Post.objects.get(id=1).category.add(Category.objects.get(id=2))
+>>> Post.objects.get(id=2).category.add(Category.objects.get(id=3))
+>>> Post.objects.get(id=3).category.add(Category.objects.get(id=4))
+>>> Comment.objects.create(comment_text='Comment1', comment_post=Post.objects.get(id=1), comment_user=User.objects.get(id=1))
+>>> Comment.objects.create(comment_text='Comment2', comment_post=Post.objects.get(id=1), comment_user=User.objects.get(id=2))
+>>> Comment.objects.create(comment_text='Comment3', comment_post=Post.objects.get(id=2), comment_user=User.objects.get(id=1))
+>>> Comment.objects.create(comment_text='Comment4', comment_post=Post.objects.get(id=3), comment_user=User.objects.get(id=2))
+>>> Post.objects.get(id=1).like()
+>>> Post.objects.get(id=1).like()
+>>> Comment.objects.get(id=2).dislike()
+>>> Comment.objects.get(id=3).dislike()
+>>> Author.objects.get(id=1).update_rating()
+>>> Author.objects.get(id=2).update_rating()
+>>> a = Author.objects.order_by('-authors_rating')[:1]
+>>> for i in a:
+...     i.author.username
+...     i.authors_rating
+>>>p = Post.objects.order_by('-rating_of_post')[:1]
+>>> for j in p:
+...     j.date_and_time_of_creation_post
+...     j.post_author.author.username
+...     j.rating_of_post
+...     j.title
+...     j.preview()
+>>> coms = Comment.objects.filter(comment_post=p)
+>>> for k in coms:
+...     k.date_and_time_of_creation_comment
+...     k.comment_user.username
+...     k.rating_of_comment
+...     k.comment_text
+
+# ѕисала только команды, без проводимых проверок введенных данных.

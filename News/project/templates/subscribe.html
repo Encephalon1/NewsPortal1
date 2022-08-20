@@ -1,0 +1,19 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+
+        <h1><a href="/news/">News Portal</a></h1>
+
+<h2>Здесь Вы можете оформить подписку на новости категории {{ cat }}</h2>
+
+{% if not is_subscribed %}
+
+    <a href="{% url 'add_subscribe' cat.pk %}"><input type="submit" class="mt-6 btn btn-outline-primary" value="Подписаться" /></a>
+
+{% else %}
+    Вы уже подписаны на эту категорию новостей.  Хотите отписаться?<br><br>
+
+    <a href="{% url 'delete_subscribe' cat.pk %}"><input type="submit" class="mt-6 btn btn-outline-primary" value="Отписаться" /></a>
+
+{% endif %}
+{% endblock content %}

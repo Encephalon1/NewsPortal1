@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Bare - Start Bootstrap Template</title>
+        <!-- Favicon-->
+        {% load static %}
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+   <div class="container">
+       <a class="navbar-brand" href="#">Django flatpages</a>
+       <button class="navbar-toggler" type="button" data-toggle="collapse"
+               data-target="#navbarResponsive"
+               aria-controls="navbarResponsive" aria-expanded="false"
+               aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+       </button>
+       <div class="collapse navbar-collapse" id="navbarResponsive">
+           <ul class="navbar-nav ml-auto">
+               <li class="nav-item">
+                   <a class="nav-link" href="/news/">News</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/news/news/create">Create news</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/news/articles/create">Create article</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/news/search/1">Subscribe on Category1</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/news/search/2">Subscribe on Category2</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/news/search/3">Subscribe on Category3</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/news/search/3">Subscribe on Category4</a>
+               </li>
+           </ul>
+       </div>
+   </div>
+</nav>
+        <!-- Page content-->
+<div class="container">
+   <div class="row">
+       <div class="col-lg-12 text-center">
+           {% block content %}
+
+           {% endblock content %}
+       </div>
+   </div>
+</div>
+    </body>
+</html>

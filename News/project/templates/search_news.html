@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+
+{% load censor %}
+
+{% block content %}
+<form action="" method="get">
+    {{ filterset.form.as_p }}
+    <input type="submit" value="Найти" />
+   </form>
+{% for single_news in search_news %}
+{{ single_news.title }} {{ single_news.date_and_time_of_creation_post|date:'d M Y' }} {{ single_news.post_text|censor }} <br />
+{% endfor %}
+{% endblock content %}
