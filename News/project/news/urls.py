@@ -16,5 +16,5 @@ urlpatterns = [
     path('search/', SearchNews.as_view(), name='filter_news'),
     path('add_subscribe/<int:pk>', add_subscribe, name='add_subscribe'),
     path('delete_subscribe/<int:pk>', delete_subscribe, name='delete_subscribe'),
-    path('subscribe/<int:pk>/', subscribe, name='subscribe')
+    path('subscribe/<int:pk>/', subscribe, name='subscribe'),
 ]

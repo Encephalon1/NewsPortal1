@@ -1,17 +1,13 @@
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMultiAlternatives, mail_managers
 from django.shortcuts import redirect, render
-from django.template.loader import render_to_string
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from .models import Post, Author, Category
 from .forms import NewsForm, ArticleForm
 from .filters import PostFilter
-from .email_recipients_subscribers import email_recipients_subscribers
+from .tasks import send_mail
 
 
 class PostList(ListView):
@@ -33,30 +29,10 @@ class PostList(ListView):
         return self.filterset.qs
 
 
-@receiver(post_save, sender=Post)
-def created_post(sender, instance, created, **kwargs):
-    subject = f'{instance.title}'
-    mail_managers(
-        subject=subject,
-        message=instance.post_text[:50],
-    )
-
-
 class PostDetail(DetailView):
     model = Post
     template_name = 'single_news.html'
     context_object_name = 'single_news'
-
-    html_content = render_to_string('mail_for_subscriber.html')
-
-    msg = EmailMultiAlternatives(
-        subject=f'{Post.objects.latest("id").title}',
-        body=Post.objects.latest('id').post_text[:50],
-        from_email='Encephalon135@yandex.ru',
-        to=email_recipients_subscribers
-    )
-    msg.attach_alternative(html_content, 'text/html')
-    msg.send()
 
 
 def subscribe(request, pk):
@@ -101,6 +77,7 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
         post = form.save(commit=False)
         post.post_type = 'NW'
         post.post_author = Author.objects.get(author=self.request.user)
+        send_mail.delay()
         return super().form_valid(form)
 
 
@@ -114,6 +91,7 @@ class ArticleCreate(PermissionRequiredMixin, CreateView):
         post = form.save(commit=False)
         post.post_type = 'AR'
         post.post_author = Author.objects.get(author=self.request.user)
+        send_mail.delay()
         return super().form_valid(form)
 
 
