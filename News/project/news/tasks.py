@@ -28,7 +28,7 @@ def week_mail():
 
     msg = EmailMultiAlternatives(
         subject='Новые статьи в выбранной категории',
-        #
+        # Выбираем новости за каждый из дней прошедшей недели
         body=Post.objects.filter(date_and_time_of_creation_post__in=
                                  [datetime.date.today() - timedelta(days=7),
                                   datetime.date.today() - timedelta(days=6),
