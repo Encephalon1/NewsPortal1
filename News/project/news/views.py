@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.core.cache import cache
 from .models import Post, Author, Category
 from .forms import NewsForm, ArticleForm
 from .filters import PostFilter
@@ -33,6 +34,14 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'single_news.html'
     context_object_name = 'single_news'
+
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+        return obj
 
 
 def subscribe(request, pk):
