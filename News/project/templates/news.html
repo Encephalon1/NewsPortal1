@@ -22,7 +22,7 @@ News
         <td>Текст</td>
     </tr>
     {% for single_news in news %}
-    <tr>
+    <tr style="background-color:{% cycle 'lightblue' 'pink' %}">
         <td>{{ single_news.title }}</td>
         <td>{{ single_news.date_and_time_of_creation_post|date:'d M Y' }}</td>
         <td>{{ single_news.post_text|censor|truncatechars:20 }}</td>
