@@ -194,18 +194,21 @@ CACHES = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'style': '{',
     'formatters': {
         'simple': {
+            'style': '{',
             'format': '{asctime}---{levelname}---{message}'
         },
         'with_path': {
+            'style': '{',
             'format': '{asctime}---{levelname}---{message}---{pathname}'
         },
         'more_information': {
+            'style': '{',
             'format': '{asctime}---{levelname}---{message}---{pathname}---{exc_info}'
         },
         'for_gen_and_secur_file': {
+            'style': '{',
             'format': '{asctime}---{levelname}---{module}---{message}'
         },
     },
@@ -257,7 +260,7 @@ LOGGING = {
         },
         'err_for_mail': {
             'level': 'ERROR',
-            'class': 'logging.AdminEmailHandler',
+            'class': 'django.utils.log.AdminEmailHandler',
             'formatter': 'with_path'
         },
     },
