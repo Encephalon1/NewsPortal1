@@ -166,13 +166,15 @@ EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_ADMIN = os.getenv('EMAIL_ADMIN')
 EMAIL_USE_SSL = True
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-MANAGERS = [('test1', 'viizdevaetes@mail.ru')]
+ADMINS = [('Olga', EMAIL_ADMIN)]
+MANAGERS = [('test1', EMAIL_ADMIN)]
 SERVER_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
 
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
