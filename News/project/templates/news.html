@@ -49,5 +49,10 @@ News
        {% endif %}
    {% endif %}
 </table>
+{% for model in models %}
+    <div class="model-class">
+        {{ model.name }}
+    </div>
+{% endfor %}
 
 {% endblock content %}
