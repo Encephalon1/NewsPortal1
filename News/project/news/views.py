@@ -1,10 +1,12 @@
 from datetime import datetime
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.cache import cache
+import pytz
 from .models import Post, Author, Category
 from .forms import NewsForm, ArticleForm
 from .filters import PostFilter
@@ -20,9 +22,15 @@ class PostList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['time_now'] = datetime.utcnow()
+        # context['time_now'] = datetime.utcnow()
         context['filterset'] = self.filterset
+        context['current_time'] = timezone.now()
+        context['timezones'] = pytz.common_timezones
         return context
+
+    def post(self, request):
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('/')
 
     def get_queryset(self):
         queryset = super().get_queryset()
