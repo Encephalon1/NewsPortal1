@@ -1,5 +1,6 @@
-from datetime import datetime
+import django_filters.rest_framework
 from django.utils import timezone
+from rest_framework import viewsets, permissions
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
@@ -11,6 +12,7 @@ from .models import Post, Author, Category
 from .forms import NewsForm, ArticleForm
 from .filters import PostFilter
 from .tasks import send_mail
+from .serializers import PostSerializer
 
 
 class PostList(ListView):
@@ -50,6 +52,13 @@ class PostDetail(DetailView):
             obj = super().get_object(queryset=self.queryset)
             cache.set(f'post-{self.kwargs["pk"]}', obj)
         return obj
+
+
+class PostViewset(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ['title', 'date_and_time_of_creation_post', 'post_author', 'category']
 
 
 def subscribe(request, pk):
